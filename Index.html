@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Zyron Tec - Original fast chargers for Android & iPhone. Fast delivery across Pakistan." />
+<meta name="theme-color" content="#0a0e27" />
+<title>Zyron Tec | Original Fast Chargers</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  :root {
+    --primary: #00d4ff;
+    --secondary: #0077ff;
+    --dark: #0a0e27;
+    --dark-2: #131836;
+    --text: #e6edff;
+    --muted: #8892b0;
+    --success: #10b981;
+    --danger: #ef4444;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--dark); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+  body.modal-open { overflow: hidden; }
+
+  .topbar {
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    color: #000; text-align: center; padding: 8px; font-size: 14px; font-weight: 600;
+  }
+
+  header {
+    background: rgba(10, 14, 39, 0.95);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 15px 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 1000;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+  }
+  .logo { font-size: 24px; font-weight: 800; color: var(--primary); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+  .logo span { color: #fff; }
+  nav { display: flex; gap: 30px; }
+  nav a {
+    color: var(--text); text-decoration: none; font-weight: 500; font-size: 15px;
+    transition: 0.3s; position: relative;
+  }
+  nav a:hover { color: var(--primary); }
+  nav a::after {
+    content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+    background: var(--primary); transition: 0.3s;
+  }
+  nav a:hover::after { width: 100%; }
+  .header-right { display: flex; align-items: center; gap: 20px; }
+  .cart-icon {
+    position: relative; cursor: pointer; font-size: 22px; padding: 8px;
+    background: var(--dark-2); border-radius: 10px; transition: 0.3s;
+    border: none; color: var(--text); font-family: inherit; line-height: 1;
+  }
+  .cart-icon:hover { background: var(--primary); color: #000; }
+  .cart-icon:focus-visible, .menu-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .cart-count {
+    position: absolute; top: -5px; right: -5px; background: var(--danger);
+    color: #fff; border-radius: 50%; padding: 2px 7px; font-size: 11px; font-weight: bold;
+  }
+  .menu-btn {
+    display: none; font-size: 26px; cursor: pointer; color: var(--primary);
+    background: none; border: none; font-family: inherit;
+  }
+
+  .hero {
+    min-height: 80vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 60px 5%;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 119, 255, 0.15), transparent 60%),
+                linear-gradient(135deg, var(--dark), var(--dark-2));
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--primary), transparent 70%);
+    opacity: 0.15; top: -200px; right: -200px; border-radius: 50%;
+  }
+  .hero-content { max-width: 800px; z-index: 1; position: relative; }
+  .badge {
+    display: inline-block; padding: 6px 16px; background: rgba(0, 212, 255, 0.15);
+    border: 1px solid var(--primary); color: var(--primary); border-radius: 50px;
+    font-size: 13px; font-weight: 600; margin-bottom: 20px;
+  }
+  .hero h1 { font-size: 60px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+  .hero h1 span {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p { font-size: 18px; color: var(--muted); margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 14px 32px; border: none; border-radius: 10px; font-weight: 700;
+    cursor: pointer; font-size: 15px; transition: 0.3s; text-decoration: none;
+    display: inline-block; text-align: center; font-family: inherit;
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: #000; box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5); }
+  .btn-outline {
+    background: transparent; color: var(--primary); border: 2px solid var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary); color: #000; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px; padding: 60px 5%; background: var(--dark-2);
+    border-top: 1px solid rgba(0, 212, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+  }
+  .stat-box { text-align: center; padding: 20px; }
+  .stat-box h2 { font-size: 42px; color: var(--primary); font-weight: 800; }
+  .stat-box p { color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+  section { padding: 80px 5%; }
+  .section-title { text-align: center; margin-bottom: 50px; }
+  .section-title h2 { font-size: 40px; font-weight: 800; margin-bottom: 10px; }
+  .section-title h2 span { color: var(--primary); }
+  .section-title p { color: var(--muted); font-size: 16px; }
+
+  .categories {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 40px;
+  }
+  .cat-btn {
+    padding: 10px 24px; background: var(--dark-2); color: var(--text);
+    border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 50px;
+    cursor: pointer; font-size: 14px; font-weight: 600; font-family: inherit;
+    transition: 0.3s;
+  }
+  .cat-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .cat-btn.active {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: #000; border-color: transparent;
+  }
+
+  .products-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px;
+  }
+  .product-card {
+    background: var(--dark-2); border-radius: 16px; padding: 15px;
+    text-align: center; transition: 0.3s; border: 1px solid rgba(0, 212, 255, 0.1);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .product-card:hover {
+    transform: translateY(-10px); border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+  }
+  .product-card .tag {
+    position: absolute; top: 15px; left: 15px; background: var(--danger);
+    color: #fff; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: bold;
+    z-index: 1; letter-spacing: 0.5px;
+  }
+  .product-card .tag.hot { background: #ff6b35; }
+  .product-card .tag.new { background: var(--success); }
+  .product-card .tag.sale { background: var(--danger); }
+  .product-card .cat-label {
+    position: absolute; top: 15px; right: 15px; background: rgba(0, 212, 255, 0.15);
+    color: var(--primary); padding: 3px 8px; border-radius: 5px; font-size: 10px;
+    font-weight: 600; z-index: 1; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .product-card img {
+    width: 100%; height: 200px; object-fit: cover; border-radius: 12px;
+    margin-bottom: 15px; background: var(--dark); display: block;
+  }
+  .product-card h3 { font-size: 16px; margin-bottom: 8px; font-weight: 600; min-height: 44px; }
+  .product-card .rating { color: #ffc107; font-size: 13px; margin-bottom: 8px; }
+  .product-card .price { font-size: 22px; color: var(--primary); font-weight: 800; margin-bottom: 12px; }
+  .product-card .price small { color: var(--muted); text-decoration: line-through; font-size: 14px; margin-left: 8px; font-weight: 400; }
+  .product-card .btn { width: 100%; padding: 12px; font-size: 14px; margin-top: auto; }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px;
+  }
+  .feature-box {
+    background: var(--dark-2); padding: 30px 20px; border-radius: 16px; text-align: center;
+    border: 1px solid rgba(0, 212, 255, 0.1); transition: 0.3s;
+  }
+  .feature-box:hover { border-color: var(--primary); transform: translateY(-5px); }
+  .feature-box .icon {
+    font-size: 40px; margin-bottom: 15px; display: inline-block;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .feature-box h3 { margin-bottom: 10px; font-size: 18px; }
+  .feature-box p { color: var(--muted); font-size: 14px; }
+
+  .about-content {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+  }
+  .about-text h2 { font-size: 36px; margin-bottom: 20px; }
+  .about-text h2 span { color: var(--primary); }
+  .about-text p { color: var(--muted); margin-bottom: 15px; }
+  .about-text ul { list-style: none; margin-top: 20px; }
+  .about-text ul li { padding: 8px 0; color: var(--text); }
+  .about-text ul li::before { content: '✓ '; color: var(--success); font-weight: bold; margin-right: 8px; }
+  .about-img {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    height: 400px; border-radius: 20px; display: flex; align-items: center; justify-content: center;
+    font-size: 100px; box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+  }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 20px; }
+  .info-box {
+    display: flex; align-items: center; gap: 15px; background: var(--dark-2);
+    padding: 20px; border-radius: 12px; border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+  .info-box .icon { font-size: 28px; color: var(--primary); }
+  .info-box h4 { font-size: 15px; margin-bottom: 3px; }
+  .info-box p { color: var(--muted); font-size: 14px; }
+  .info-box a { color: var(--muted); text-decoration: none; transition: 0.3s; }
+  .info-box a:hover { color: var(--primary); }
+  .contact-form {
+    background: var(--dark-2); padding: 30px; border-radius: 16px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+  .contact-form input, .contact-form textarea {
+    width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 10px; background: var(--dark); color: var(--text);
+    font-family: inherit; font-size: 14px; outline: none; transition: 0.3s;
+  }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: var(--primary); }
+  .contact-form button { width: 100%; }
+
+  .newsletter {
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    text-align: center; padding: 60px 5%; color: #000;
+  }
+  .newsletter h2 { font-size: 32px; margin-bottom: 10px; font-weight: 800; }
+  .newsletter p { margin-bottom: 25px; font-weight: 500; }
+  .newsletter form {
+    max-width: 500px; margin: auto; display: flex; gap: 10px;
+  }
+  .newsletter input {
+    flex: 1; padding: 14px; border: none; border-radius: 10px;
+    font-size: 14px; outline: none; font-family: inherit; min-width: 0;
+  }
+  .newsletter button {
+    padding: 14px 30px; background: #000; color: #fff; border: none;
+    border-radius: 10px; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+
+  footer {
+    background: #050818; padding: 60px 5% 20px; border-top: 1px solid rgba(0, 212, 255, 0.1);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px;
+  }
+  .footer-col h4 { color: var(--primary); margin-bottom: 20px; font-size: 16px; }
+  .footer-col p, .footer-col a {
+    color: var(--muted); font-size: 14px; text-decoration: none;
+    display: block; margin-bottom: 10px; transition: 0.3s;
+  }
+  .footer-col a:hover { color: var(--primary); padding-left: 5px; }
+  .socials { display: flex; gap: 12px; margin-top: 15px; }
+  .socials a {
+    width: 38px; height: 38px; background: var(--dark-2); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary); font-size: 18px; transition: 0.3s;
+  }
+  .socials a:hover { background: var(--primary); color: #000; padding-left: 0; }
+  .copyright {
+    text-align: center; padding-top: 20px; border-top: 1px solid rgba(0, 212, 255, 0.1);
+    color: var(--muted); font-size: 13px;
+  }
+
+  .modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    justify-content: center; align-items: center; z-index: 2000; padding: 20px;
+  }
+  .modal.active { display: flex; }
+  .modal-content {
+    background: var(--dark-2); padding: 30px; border-radius: 20px;
+    width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto;
+    border: 1px solid var(--primary); position: relative;
+  }
+  .modal-content h2 { color: var(--primary); margin-bottom: 20px; font-size: 24px; }
+  .close-x {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: var(--muted); background: none; border: none;
+    font-family: inherit; line-height: 1; padding: 4px 8px;
+  }
+  .close-x:hover { color: var(--danger); }
+  .cart-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+  }
+  .cart-item-info { flex: 1; min-width: 0; }
+  .cart-item-info strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  .cart-item-info span { color: var(--primary); font-weight: 600; font-size: 13px; }
+  .cart-item input {
+    width: 55px; padding: 6px; border-radius: 6px; border: 1px solid rgba(0, 212, 255, 0.3);
+    background: var(--dark); color: var(--text); text-align: center; font-family: inherit;
+  }
+  .cart-total {
+    text-align: right; margin: 20px 0; font-size: 18px; font-weight: 700;
+    color: var(--text); line-height: 1.8;
+  }
+  .cart-total .grand { font-size: 24px; font-weight: 800; color: var(--primary); }
+  .checkout-form input, .checkout-form textarea {
+    width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px;
+    border: 1px solid rgba(0, 212, 255, 0.2); background: var(--dark);
+    color: var(--text); font-family: inherit; outline: none; font-size: 14px;
+  }
+  .checkout-form input:focus, .checkout-form textarea:focus { border-color: var(--primary); }
+  .empty-cart { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .order-summary {
+    margin-bottom: 20px; padding: 15px; background: var(--dark);
+    border-radius: 12px; font-size: 14px;
+  }
+  .order-summary .row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
+  .order-summary .row span:first-child { color: var(--muted); }
+  .order-summary hr { border: none; border-top: 1px solid rgba(0, 212, 255, 0.15); margin: 10px 0; }
+  .order-summary .grand { font-weight: 800; color: var(--primary); font-size: 16px; }
+  .pay-options { margin-bottom: 15px; color: var(--muted); font-size: 14px; }
+  .pay-options strong { color: var(--text); display: block; margin-bottom: 8px; }
+  .pay-options label { display: block; margin-bottom: 6px; cursor: pointer; }
+  .pay-options input { width: auto; margin-right: 8px; }
+  .confirm-box { text-align: center; }
+  .confirm-box .big-id {
+    font-size: 22px; font-weight: 800; color: var(--primary);
+    background: var(--dark); padding: 14px; border-radius: 12px;
+    margin: 15px 0; letter-spacing: 1px; word-break: break-all;
+  }
+  .confirm-box p { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+  .confirm-box .pay-box {
+    background: var(--dark); padding: 12px; border-radius: 10px;
+    margin: 10px 0; color: var(--text); font-weight: 600;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(90deg, #00d4ff, #0077ff); color: #000;
+    padding: 14px 28px; border-radius: 10px; font-weight: 700; z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0,212,255,0.5);
+    animation: slideUp 0.3s ease; max-width: 90vw; text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .hero h1 { font-size: 40px; }
+    .about-content, .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav {
+      display: none; position: absolute; top: calc(100% + 8px); right: 5%; left: 5%;
+      background: var(--dark-2); flex-direction: column; gap: 0;
+      padding: 20px; border-radius: 12px; border: 1px solid var(--primary);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    nav.active { display: flex; }
+    nav a { padding: 12px 0; border-bottom: 1px solid rgba(0,212,255,0.1); }
+    .menu-btn { display: block; }
+    .section-title h2 { font-size: 30px; }
+    .newsletter form { flex-direction: column; }
+  }
+  @media (max-width: 500px) {
+    .hero h1 { font-size: 30px; }
+    .hero p { font-size: 15px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .btn { padding: 12px 24px; }
+    section { padding: 50px 5%; }
+    .products-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; }
+    .product-card img { height: 150px; }
+    .product-card h3 { font-size: 14px; min-height: 40px; }
+    .product-card .price { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">🚚 Free Delivery on Orders Above Rs. 1500 | 💰 Cash on Delivery Available</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">⚡ <span>Zyron</span> Tec</div>
+  <nav id="nav">
+    <a href="#home">Home</a>
+    <a href="#products">Chargers</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="header-right">
+    <button class="cart-icon" type="button" aria-label="Open shopping cart" onclick="openModal('cartModal')">
+      🛒 <span class="cart-count" id="cartCount" hidden>0</span>
+    </button>
+    <button class="menu-btn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav" onclick="toggleMenu(this)">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <span class="badge">🇵🇰 Pakistan's Trusted Charger Store</span>
+    <h1>Original <span>Fast Chargers</span> for Every Phone</h1>
+    <p>Android, iPhone, Samsung, Type-C — har device ke liye original fast chargers. 100% quality guaranteed, fast delivery, 7-day return policy.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn btn-primary">🛍️ Shop Chargers</a>
+      <a href="#contact" class="btn btn-outline">📞 Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-box"><h2>10K+</h2><p>Happy Customers</p></div>
+  <div class="stat-box"><h2>8+</h2><p>Charger Models</p></div>
+  <div class="stat-box"><h2>4.9★</h2><p>Customer Rating</p></div>
+  <div class="stat-box"><h2>24/7</h2><p>Support</p></div>
+</div>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-title">
+    <h2>Our <span>Chargers</span></h2>
+    <p>Original fast chargers — Android, iPhone aur har device ke liye</p>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="categories" id="categories"></div>
+
+  <div class="products-grid" id="productList"></div>
+</section>
+
+<!-- FEATURES -->
+<section style="background: var(--dark-2);">
+  <div class="section-title">
+    <h2>Why Choose <span>Zyron Tec?</span></h2>
+    <p>Hum kyun best hain aapke liye</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-box">
+      <div class="icon">🚚</div>
+      <h3>Fast Delivery</h3>
+      <p>2-3 din me pure Pakistan me delivery</p>
+    </div>
+    <div class="feature-box">
+      <div class="icon">💯</div>
+      <h3>100% Original</h3>
+      <p>Sirf original aur branded chargers</p>
+    </div>
+    <div class="feature-box">
+      <div class="icon">🔄</div>
+      <h3>7-Day Return</h3>
+      <p>7 din ka easy return policy</p>
+    </div>
+    <div class="feature-box">
+      <div class="icon">💳</div>
+      <h3>Secure Payment</h3>
+      <p>COD, Easypaisa, Bank Transfer</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-content">
+    <div class="about-img">🔌</div>
+    <div class="about-text">
+      <h2>About <span>Zyron Tec</span></h2>
+      <p>Zyron Tec Pakistan ka trusted online charger store hai. Hum original fast chargers provide karte hain — Android, iPhone, Samsung, Type-C aur har device ke liye.</p>
+      <p>Hum direct manufacturers se chargers lete hain, isliye aapko market se sasta aur original saman milta hai.</p>
+      <ul>
+        <li>Original branded chargers</li>
+        <li>Android, iPhone, Type-C sab available</li>
+        <li>Fast &amp; secure delivery</li>
+        <li>24/7 customer support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--dark-2);">
+  <div class="section-title">
+    <h2>Get in <span>Touch</span></h2>
+    <p>Koi sawal ya order? Humse rabta karein</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info" id="contactInfo"></div>
+    <form class="contact-form" onsubmit="sendContact(event)">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <input type="tel" placeholder="Phone Number" pattern="[0-9+\-\s()]{10,20}" title="Enter a valid phone number" required />
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <h2>📬 Subscribe to Our Newsletter</h2>
+  <p>New chargers aur exclusive offers ki updates paayein</p>
+  <form onsubmit="subscribeNews(event)">
+    <input type="email" placeholder="Enter your email" required />
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="logo">⚡ <span>Zyron</span> Tec</div>
+      <p style="margin-top:15px;">Pakistan's trusted online store for original fast chargers. Best prices, fast delivery.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">📷</a>
+        <a href="#" id="whatsappLink" aria-label="WhatsApp" target="_blank" rel="noopener">💬</a>
+        <a href="#" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#home">Home</a>
+      <a href="#products">Chargers</a>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <a href="#products" onclick="filterCategory('Android')">Android Chargers</a>
+      <a href="#products" onclick="filterCategory('iPhone')">iPhone Chargers</a>
+      <a href="#products" onclick="filterCategory('Car')">Car Chargers</a>
+      <a href="#products" onclick="filterCategory('Wireless')">Wireless Chargers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Shipping Policy</a>
+      <a href="#">Return Policy</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+  </div>
+  <div class="copyright">
+    © 2026 Zyron Tec. All Rights Reserved. | Made with ❤️ in Pakistan
+  </div>
+</footer>
+
+<!-- CART MODAL -->
+<div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <div class="modal-content">
+    <button class="close-x" type="button" aria-label="Close cart" onclick="closeModal('cartModal')">✕</button>
+    <h2 id="cartTitle">🛒 Your Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal"></div>
+    <button class="btn btn-primary" type="button" style="width:100%;" onclick="openCheckout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+  <div class="modal-content">
+    <button class="close-x" type="button" aria-label="Close checkout" onclick="closeModal('checkoutModal')">✕</button>
+    <h2 id="checkoutTitle">💳 Checkout</h2>
+    <div class="order-summary" id="checkoutSummary"></div>
+    <form class="checkout-form" onsubmit="processPayment(event)">
+      <input type="text" id="custName" placeholder="Full Name" autocomplete="name" required />
+      <input type="email" id="custEmail" placeholder="Email Address" autocomplete="email" required />
+      <input type="tel" id="custPhone" placeholder="Phone Number" autocomplete="tel" pattern="[0-9+\-\s()]{10,20}" title="Enter a valid phone number" required />
+      <textarea id="custAddress" rows="3" placeholder="Complete Delivery Address" autocomplete="street-address" required></textarea>
+      <div class="pay-options">
+        <strong>Payment Method:</strong>
+        <label><input type="radio" name="pay" value="cod" checked> Cash on Delivery</label>
+        <label><input type="radio" name="pay" value="easypaisa"> Easypaisa / Bank Transfer</label>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Place Order</button>
+    </form>
+  </div>
+</div>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal-content">
+    <button class="close-x" type="button" aria-label="Close" onclick="closeModal('confirmModal')">✕</button>
+    <div class="confirm-box" id="confirmBody"></div>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // ⚙️  CONFIG — sirf yahan change karein
+  // ============================================================
+  const CONFIG = {
+    shopName:     "Zyron Tec",
+    address:      "Korangi, Karachi, Pakistan",
+    phone:        "+92 317 2104346",
+    phoneRaw:     "923172104346",
+    email:        "info@zyrontec.pk",
+    hours:        "Mon - Sat: 10 AM - 10 PM",
+    easypaisa:    "0317 2104346",
+    easypaisaRaw: "03172104346"
+  };
+
+  const FREE_SHIPPING_MIN = 1500;
+  const SHIPPING_FEE = 150;
+
+  const FALLBACK_IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200">' +
+    '<rect width="100%" height="100%" fill="#131836"/>' +
+    '<text x="50%" y="50%" fill="#00d4ff" font-family="sans-serif" font-size="30" ' +
+    'text-anchor="middle" dominant-baseline="middle">Zyron Tec</text></svg>'
+  );
+
+  const esc = s => String(s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const money = n => 'Rs. ' + Number(n).toLocaleString('en-PK');
+
+  // ============================================================
+  // 📦 PRODUCTS — Sirf Chargers
+  // ============================================================
+  const products = [
+    // ===== ANDROID CHARGERS =====
+    { id: 1, name: "20W USB-C Fast Charger",          price: 1299, old: 1799, cat: "Android",  img: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400", tag: "HOT",  rating: 4.9 },
+    { id: 2, name: "33W Fast Charger (Android)",      price: 1699, old: 2299, cat: "Android",  img: "https://images.unsplash.com/photo-1609592806596-b43bada2f2d7?w=400", tag: "",     rating: 4.6 },
+    { id: 3, name: "65W GaN Fast Charger",            price: 2899, old: 3999, cat: "Android",  img: "https://images.unsplash.com/photo-1591290619762-3c9a5c15ed4d?w=400", tag: "NEW",  rating: 4.8 },
+    { id: 4, name: "Original Samsung 25W Charger",    price: 1999, old: 2799, cat: "Android",  img: "https://images.unsplash.com/photo-1588347818036-0e16cfdad1e6?w=400", tag: "HOT",  rating: 4.8 },
+    { id: 5, name: "Multi-Port Charger 4 USB",        price: 1899, old: 2599, cat: "Android",  img: "https://images.unsplash.com/photo-1615526675159-e248c3021d3f?w=400", tag: "",     rating: 4.7 },
+
+    // ===== iPHONE CHARGERS =====
+    { id: 6, name: "iPhone 20W USB-C Adapter",        price: 1499, old: 1999, cat: "iPhone",   img: "https://images.unsplash.com/photo-1591290619762-c61ee1eb1c3d?w=400", tag: "HOT",  rating: 4.8 },
+    { id: 7, name: "iPhone 30W Fast Charger",         price: 2199, old: 2999, cat: "iPhone",   img: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400", tag: "NEW",  rating: 4.9 },
+
+    // ===== CAR CHARGERS =====
+    { id: 8, name: "Car Charger Dual USB 3.4A",       price: 799,  old: 1199, cat: "Car",      img: "https://images.unsplash.com/photo-1615838752138-61e3a26a9c2a?w=400", tag: "SALE", rating: 4.4 },
+    { id: 9, name: "Car Charger Type-C PD 30W",       price: 1299, old: 1799, cat: "Car",      img: "https://images.unsplash.com/photo-1609592806596-b43bada2f2d7?w=400", tag: "HOT",  rating: 4.7 },
+
+    // ===== WIRELESS CHARGERS =====
+    { id: 10, name: "Wireless Charging Pad 15W",      price: 1599, old: 2299, cat: "Wireless", img: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400", tag: "NEW",  rating: 4.5 },
+    { id: 11, name: "Wireless Charging Stand 10W",    price: 1899, old: 2699, cat: "Wireless", img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400", tag: "",     rating: 4.6 }
+  ];
+
+  let activeCategory = 'All';
+
+  function loadCart() {
+    try { return JSON.parse(localStorage.getItem('zyronTecCart')) || []; }
+    catch { return []; }
+  }
+  function saveCart() {
+    try { localStorage.setItem('zyronTecCart', JSON.stringify(cart)); } catch {}
+  }
+  function saveOrder(order) {
+    try {
+      const orders = JSON.parse(localStorage.getItem('zyronTecOrders')) || [];
+      orders.push(order);
+      localStorage.setItem('zyronTecOrders', JSON.stringify(orders));
+    } catch {}
+  }
+
+  let cart = loadCart();
+
+  function getTotals() {
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const shipping = (subtotal === 0 || subtotal >= FREE_SHIPPING_MIN) ? 0 : SHIPPING_FEE;
+    return { subtotal, shipping, total: subtotal + shipping };
+  }
+
+  function renderContactInfo() {
+    document.getElementById('contactInfo').innerHTML = `
+      <div class="info-box">
+        <div class="icon">📍</div>
+        <div><h4>Address</h4><p>${esc(CONFIG.address)}</p></div>
+      </div>
+      <div class="info-box">
+        <div class="icon">📞</div>
+        <div><h4>Phone / WhatsApp</h4>
+          <p><a href="tel:+${esc(CONFIG.phoneRaw)}">${esc(CONFIG.phone)}</a></p>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="icon">✉️</div>
+        <div><h4>Email</h4>
+          <p><a href="mailto:${esc(CONFIG.email)}">${esc(CONFIG.email)}</a></p>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="icon">🕒</div>
+        <div><h4>Working Hours</h4><p>${esc(CONFIG.hours)}</p></div>
+      </div>`;
+
+    document.getElementById('whatsappLink').href =
+      `https://wa.me/${CONFIG.phoneRaw}?text=` +
+      encodeURIComponent('Assalam-o-Alaikum! Mujhe Zyron Tec se charger order karna hai.');
+  }
+
+  function renderCategories() {
+    const cats = ['All', ...new Set(products.map(p => p.cat))];
+    document.getElementById('categories').innerHTML = cats.map(c => `
+      <button class="cat-btn ${c === activeCategory ? 'active' : ''}"
+              type="button" onclick="filterCategory('${esc(c)}')">${esc(c)}</button>
+    `).join('');
+  }
+
+  function filterCategory(cat) {
+    activeCategory = cat;
+    renderCategories();
+    renderProducts();
+    const el = document.getElementById('products');
+    if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+  }
+
+  function renderProducts() {
+    const list = activeCategory === 'All'
+      ? products
+      : products.filter(p => p.cat === activeCategory);
+
+    if (list.length === 0) {
+      document.getElementById('productList').innerHTML =
+        '<p style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;">Koi product nahi mila.</p>';
+      return;
+    }
+
+    document.getElementById('productList').innerHTML = list.map(p => {
+      const tagClass = p.tag ? p.tag.toLowerCase() : '';
+      const discount = p.old > p.price
+        ? `<small>${money(p.old)}</small>`
+        : '';
+      return `
+        <div class="product-card">
+          ${p.tag ? `<span class="tag ${tagClass}">${esc(p.tag)}</span>` : ''}
+          <span class="cat-label">${esc(p.cat)}</span>
+          <img src="${esc(p.img)}" alt="${esc(p.name)}" width="400" height="200"
+               loading="lazy" onerror="this.onerror=null;this.src=FALLBACK_IMG">
+          <h3>${esc(p.name)}</h3>
+          <div class="rating">⭐ ${esc(p.rating)}</div>
+          <div class="price">${money(p.price)} ${discount}</div>
+          <button class="btn btn-primary" type="button" onclick="addToCart(${p.id})">Add to Cart</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+    const existing = cart.find(item => item.id === id);
+    if (existing) existing.qty++;
+    else cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
+    saveCart();
+    updateCartCount();
+    showToast(`✅ ${product.name} added to cart!`);
+  }
+
+  function updateCartCount() {
+    const count = cart.reduce((sum, i) => sum + i.qty, 0);
+    const el = document.getElementById('cartCount');
+    el.textContent = count;
+    el.hidden = count === 0;
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    const totalEl = document.getElementById('cartTotal');
+
+    if (cart.length === 0) {
+      container.innerHTML = '<div class="empty-cart">🛒 Aapka cart khali hai<br><br>Chargers add karein shopping start karne ke liye</div>';
+      totalEl.textContent = '';
+      return;
+    }
+
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <strong>${esc(item.name)}</strong>
+          <span>${money(item.price)} × ${item.qty} = ${money(item.price * item.qty)}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <input type="number" min="1" value="${item.qty}"
+                 onchange="updateQty(${item.id}, this.value)" aria-label="Quantity for ${esc(item.name)}">
+          <button class="close-x" type="button" style="position:static; font-size:18px;"
+                  aria-label="Remove ${esc(item.name)}" onclick="removeItem(${item.id})">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+
+    const { subtotal, shipping, total } = getTotals();
+    totalEl.innerHTML =
+      `<div>Subtotal: ${money(subtotal)}</div>` +
+      (shipping
+        ? `<div>Shipping: ${money(shipping)}</div>`
+        : `<div style="color:var(--success)">Shipping: Free ✓</div>`) +
+      `<div class="grand">Total: ${money(total)}</div>`;
+  }
+
+  function updateQty(id, qty) {
+    const item = cart.find(i => i.id === id);
+    if (item) {
+      item.qty = Math.max(1, parseInt(qty, 10) || 1);
+      saveCart(); renderCart(); updateCartCount();
+    }
+  }
+
+  function removeItem(id) {
+    cart = cart.filter(i => i.id !== id);
+    saveCart(); renderCart(); updateCartCount();
+  }
+
+  let lastFocused = null;
+
+  function openModal(id) {
+    if (id === 'cartModal') renderCart();
+    const m = document.getElementById(id);
+    lastFocused = document.activeElement;
+    m.classList.add('active');
+    document.body.classList.add('modal-open');
+    const focusable = m.querySelector('button, input, textarea, a[href]');
+    if (focusable) setTimeout(() => focusable.focus(), 30);
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+    if (!document.querySelector('.modal.active')) document.body.classList.remove('modal-open');
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal.active').forEach(m => closeModal(m.id));
+      return;
+    }
+    if (e.key === 'Tab') {
+      const modal = document.querySelector('.modal.active');
+      if (!modal) return;
+      const nodes = modal.querySelectorAll('button, input, textarea, a[href], select');
+      const list = Array.from(nodes).filter(el => !el.disabled && el.offsetParent !== null);
+      if (!list.length) return;
+      const first = list[0], last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  document.querySelectorAll('.modal').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); });
+  });
+
+  function openCheckout() {
+    if (cart.length === 0) { showToast('❌ Cart khali hai!'); return; }
+    const { subtotal, shipping, total } = getTotals();
+    document.getElementById('checkoutSummary').innerHTML =
+      cart.map(i => `<div class="row"><span>${esc(i.name)} × ${i.qty}</span><span>${money(i.price * i.qty)}</span></div>`).join('') +
+      '<hr>' +
+      `<div class="row"><span>Subtotal</span><span>${money(subtotal)}</span></div>` +
+      `<div class="row"><span>Shipping</span><span>${shipping ? money(shipping) : 'Free'}</span></div>` +
+      `<div class="row grand"><span>Total</span><span>${money(total)}</span></div>`;
+    closeModal('cartModal');
+    openModal('checkoutModal');
+  }
+
+  function processPayment(e) {
+    e.preventDefault();
+    const method = document.querySelector('input[name="pay"]:checked').value;
+    const totals = getTotals();
+
+    const order = {
+      id: 'ZT-' + Date.now().toString(36).toUpperCase(),
+      items: cart.map(({ id, name, price, qty }) => ({ id, name, price, qty })),
+      subtotal: totals.subtotal,
+      shipping: totals.shipping,
+      total: totals.total,
+      customer: {
+        name: document.getElementById('custName').value.trim(),
+        email: document.getElementById('custEmail').value.trim(),
+        phone: document.getElementById('custPhone').value.trim(),
+        address: document.getElementById('custAddress').value.trim()
+      },
+      method,
+      status: method === 'cod' ? 'pending' : 'awaiting-payment',
+      createdAt: new Date().toISOString()
+    };
+
+    console.log('Order placed:', order);
+    saveOrder(order);
+    completeOrder(order);
+  }
+
+  function completeOrder(order) {
+    cart = [];
+    saveCart();
+    updateCartCount();
+    closeModal('checkoutModal');
+    document.querySelector('.checkout-form').reset();
+
+    const payNote = order.method === 'cod'
+      ? '<p>💵 Cash on Delivery — delivery ke waqt payment karein.</p>'
+      : `<p>📲 Payment bhejein aur screenshot WhatsApp karein:</p>
+         <div class="pay-box">Easypaisa: ${esc(CONFIG.easypaisa)}</div>
+         <a href="https://wa.me/${CONFIG.phoneRaw}" target="_blank" rel="noopener"
+            class="btn btn-primary" style="width:100%;margin-top:8px;">
+           💬 WhatsApp par screenshot bhejein
+         </a>`;
+
+    document.getElementById('confirmBody').innerHTML =
+      `<h2 id="confirmTitle" style="margin-bottom:10px;">✅ Order Confirmed!</h2>
+       <p>Shukriya ${esc(order.customer.name.split(' ')[0] || 'customer')}! Aapka order mil gaya hai.</p>
+       <div class="big-id">${esc(order.id)}</div>
+       <p style="color:var(--text);font-weight:700;font-size:18px;">${money(order.total)}</p>
+       ${payNote}
+       <p style="margin-top:14px;font-size:13px;">Order ID save kar lein — tracking ke liye zaroori hai.</p>
+       <button class="btn btn-primary" type="button" style="width:100%;margin-top:16px;"
+               onclick="closeModal('confirmModal')">Continue Shopping</button>`;
+
+    openModal('confirmModal');
+  }
+
+  function toggleMenu(btn) {
+    const nav = document.getElementById('nav');
+    const open = nav.classList.toggle('active');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function sendContact(e) {
+    e.preventDefault();
+    showToast('✅ Message sent! Hum jaldi contact karenge.');
+    e.target.reset();
+  }
+
+  function subscribeNews(e) {
+    e.preventDefault();
+    showToast('✅ Subscribed! Thanks for joining.');
+    e.target.reset();
+  }
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+
+  renderContactInfo();
+  renderCategories();
+  renderProducts();
+  updateCartCount();
+
+  document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
+    document.getElementById('nav').classList.remove('active');
+    document.querySelector('.menu-btn').setAttribute('aria-expanded', 'false');
+  }));
+</script>
+
+</body>
+</html>
