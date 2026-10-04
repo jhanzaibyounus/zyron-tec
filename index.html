@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>CryptoPak</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <div>
+      <h1>CryptoPak</h1>
+      <p>Crypto & PKR Wallet</p>
+    </div>
+
+    <button class="profile-btn" onclick="showPage('profile')">
+      👤
+    </button>
+  </header>
+
+
+  <!-- MAIN APP -->
+  <main class="container">
+
+    <!-- DASHBOARD -->
+    <section id="home" class="page active">
+
+      <div class="balance-card">
+        <p>Total Balance</p>
+        <h2 id="totalBalance">PKR 0.00</h2>
+        <small>Demo wallet balance</small>
+      </div>
+
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions">
+
+        <button onclick="showPage('deposit')">
+          <span>📥</span>
+          Deposit
+        </button>
+
+        <button onclick="showPage('withdraw')">
+          <span>📤</span>
+          Withdraw
+        </button>
+
+        <button onclick="showPage('buy')">
+          <span>💳</span>
+          Buy
+        </button>
+
+        <button onclick="showPage('sell')">
+          <span>💰</span>
+          Sell
+        </button>
+
+      </div>
+
+
+      <!-- MARKETS -->
+      <div class="card">
+
+        <div class="card-title">
+          <h3>Markets</h3>
+          <span>PKR</span>
+        </div>
+
+        <div class="coin">
+          <div class="coin-left">
+            <div class="coin-icon btc">₿</div>
+            <div>
+              <strong>Bitcoin</strong>
+              <small>BTC</small>
+            </div>
+          </div>
+
+          <div class="coin-price">
+            <strong id="btcPrice">--</strong>
+            <small>PKR</small>
+          </div>
+        </div>
+
+
+        <div class="coin">
+          <div class="coin-left">
+            <div class="coin-icon eth">Ξ</div>
+            <div>
+              <strong>Ethereum</strong>
+              <small>ETH</small>
+            </div>
+          </div>
+
+          <div class="coin-price">
+            <strong id="ethPrice">--</strong>
+            <small>PKR</small>
+          </div>
+        </div>
+
+
+        <div class="coin">
+          <div class="coin-left">
+            <div class="coin-icon sol">◎</div>
+            <div>
+              <strong>Solana</strong>
+              <small>SOL</small>
+            </div>
+          </div>
+
+          <div class="coin-price">
+            <strong id="solPrice">--</strong>
+            <small>PKR</small>
+          </div>
+        </div>
+
+
+        <div class="coin">
+          <div class="coin-left">
+            <div class="coin-icon usdt">₮</div>
+            <div>
+              <strong>Tether</strong>
+              <small>USDT</small>
+            </div>
+          </div>
+
+          <div class="coin-price">
+            <strong id="usdtPrice">--</strong>
+            <small>PKR</small>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- WALLET -->
+      <div class="card">
+
+        <div class="card-title">
+          <h3>My Wallet</h3>
+        </div>
+
+        <div class="wallet-row">
+          <span>💵 PKR</span>
+          <strong id="pkrWallet">0.00</strong>
+        </div>
+
+        <div class="wallet-row">
+          <span>₿ BTC</span>
+          <strong>0.00000000</strong>
+        </div>
+
+        <div class="wallet-row">
+          <span>₮ USDT</span>
+          <strong>0.00</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BUY PAGE -->
+    <section id="buy" class="page">
+
+      <div class="page-header">
+        <button onclick="showPage('home')">←</button>
+        <h2>Buy Crypto</h2>
+      </div>
+
+      <div class="form-card">
+
+        <label>Select Crypto</label>
+
+        <select id="buyCoin">
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="SOL">Solana (SOL)</option>
+          <option value="USDT">Tether (USDT)</option>
+        </select>
+
+
+        <label>Amount in PKR</label>
+
+        <input
+          id="buyAmount"
+          type="number"
+          placeholder="Enter PKR amount"
+          min="0"
+        >
+
+
+        <button class="primary-btn" onclick="buyCrypto()">
+          Buy Crypto
+        </button>
+
+        <p id="buyMessage" class="message"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- SELL PAGE -->
+    <section id="sell" class="page">
+
+      <div class="page-header">
+        <button onclick="showPage('home')">←</button>
+        <h2>Sell Crypto</h2>
+      </div>
+
+      <div class="form-card">
+
+        <label>Select Crypto</label>
+
+        <select id="sellCoin">
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="SOL">Solana (SOL)</option>
+          <option value="USDT">Tether (USDT)</option>
+        </select>
+
+
+        <label>Amount</label>
+
+        <input
+          id="sellAmount"
+          type="number"
+          placeholder="Enter amount"
+          min="0"
+        >
+
+
+        <button class="danger-btn" onclick="sellCrypto()">
+          Sell Crypto
+        </button>
+
+        <p id="sellMessage" class="message"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- DEPOSIT PAGE -->
+    <section id="deposit" class="page">
+
+      <div class="page-header">
+        <button onclick="showPage('home')">←</button>
+        <h2>Deposit</h2>
+      </div>
+
+      <div class="form-card">
+
+        <h3>Deposit PKR</h3>
+
+        <p class="info">
+          Deposit functionality will be connected to an authorized
+          payment provider before accepting real money.
+        </p>
+
+
+        <label>Amount</label>
+
+        <input
+          id="depositAmount"
+          type="number"
+          placeholder="Enter PKR amount"
+          min="0"
+        >
+
+
+        <button class="primary-btn" onclick="depositPKR()">
+          Continue
+        </button>
+
+        <p id="depositMessage" class="message"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- WITHDRAW PAGE -->
+    <section id="withdraw" class="page">
+
+      <div class="page-header">
+        <button onclick="showPage('home')">←</button>
+        <h2>Withdraw</h2>
+      </div>
+
+      <div class="form-card">
+
+        <h3>Withdraw PKR</h3>
+
+        <label>Amount</label>
+
+        <input
+          id="withdrawAmount"
+          type="number"
+          placeholder="Enter PKR amount"
+          min="0"
+        >
+
+
+        <label>Payment Method</label>
+
+        <select id="withdrawMethod">
+          <option>Bank Account</option>
+          <option>EasyPaisa</option>
+          <option>JazzCash</option>
+        </select>
+
+
+        <label>Account / Mobile Number</label>
+
+        <input
+          id="withdrawAccount"
+          type="text"
+          placeholder="Enter account number"
+        >
+
+
+        <button class="danger-btn" onclick="withdrawPKR()">
+          Request Withdrawal
+        </button>
+
+        <p id="withdrawMessage" class="message"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- PROFILE PAGE -->
+    <section id="profile" class="page">
+
+      <div class="page-header">
+        <button onclick="showPage('home')">←</button>
+        <h2>Profile</h2>
+      </div>
+
+      <div class="form-card">
+
+        <div class="profile-icon">
+          👤
+        </div>
+
+        <h3>CryptoPak User</h3>
+
+        <p class="info">
+          Account system will be connected to the secure backend
+          in the next stage.
+        </p>
+
+        <button class="secondary-btn" onclick="showPage('home')">
+          Back to Dashboard
+        </button>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+
+    <button onclick="showPage('home')">
+      🏠
+      <span>Home</span>
+    </button>
+
+    <button onclick="showPage('buy')">
+      📈
+      <span>Buy</span>
+    </button>
+
+    <button onclick="showPage('sell')">
+      📉
+      <span>Sell</span>
+    </button>
+
+    <button onclick="showPage('profile')">
+      👤
+      <span>Profile</span>
+    </button>
+
+  </nav>
+
+
+  <script src="app.js"></script>
+
+</body>
+</html>
